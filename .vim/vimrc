@@ -1,0 +1,14 @@
+source $HOME/.vim/conf/options.vimrc
+
+source $HOME/.vim/conf/keymaps.vimrc
+
+source $HOME/.vim/conf/keymaps_vim.vimrc
+
+source $HOME/.vim/conf/plugins.vimrc
+
+source $HOME/.vim/conf/colorscheme.vimrc
+
+
+if &term == "alacritty"
+    let &term = "xterm-256color"
+endif

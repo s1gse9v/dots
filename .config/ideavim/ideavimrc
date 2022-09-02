@@ -1,0 +1,35 @@
+source ~/.vim/conf/keymaps.vimrc
+
+set incsearch
+set scrolloff=8
+set relativenumber
+
+set surround
+set easymotion
+set ideajoin
+set commentary
+
+"=== Mappings ==="
+" Code Actions "
+nnoremap gr              :action RenameElement<CR>
+nnoremap zc              :action CollapseRegion<CR>
+nnoremap zo              :action ExpandRegion<CR>
+nnoremap ge              :action GotoNextError<CR>
+nnoremap gE              :action GotoPreviousError<CR>
+nnoremap gi              :action GotoImplementation<CR>
+
+" Editor Actions "
+nnoremap <leader>=       :action ReformatCode<CR>
+nnoremap <leader>a       :action GotoAction<CR>
+nnoremap <leader>q       :action CloseContent<CR>
+nnoremap <leader>u       :action FindUsages<CR>
+nnoremap <TAB>           :action NextTab<CR>
+nnoremap <S-TAB>         :action PreviousTab<CR>
+
+" Running and Debugging "
+nnoremap ,r              :action Run<CR>
+nnoremap ,R              :action Rerun<CR>
+nnoremap ,d              :action Debug<CR>
+nnoremap ,c              :action Build<CR>
+nnoremap ,b              :action ToggleLineBreakpoint<CR>
+nnoremap ,t              :action ActivateTerminalToolWindow<CR>
