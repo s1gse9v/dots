@@ -1,0 +1,18 @@
+#!/bin/bash
+
+current() {
+   cat /sys/class/power_supply/*/capacity 
+}
+
+status() {
+    cat /sys/class/power_supply/*/status
+}
+
+case "$1" in
+    --current)
+    current
+    ;;
+    --status)
+    status
+    ;;
+esac

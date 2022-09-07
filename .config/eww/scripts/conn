@@ -1,0 +1,33 @@
+#!/bin/bash
+get_conn_type(){
+    if (nmcli -f DEVICE c s --active | grep -E '^tun.*' &>/dev/null); then
+        icon=""
+        line="Connected via vpn"
+    elif (nmcli -f DEVICE c s --active | grep -E '^eno.*|^eth.*' &>/dev/null); then
+        icon=""
+        line="Connected via ethernet"
+    elif (nmcli -f DEVICE c s --active | grep -E '^wlp.*' &>/dev/null); then
+        icon=""
+        line="Connected to $(nmcli -f NAME,DEVICE c s --active | grep -E 'wlp.*' | awk '{print $1}')"
+    else
+        icon="睊"
+        line="No connection"
+    fi
+}
+
+make_widget(){
+    echo "(button" \
+            ":class \"conn_button\"" \
+            ":tooltip \"$1\"" \
+            ":onclick \"do things\" \"$2\"" \
+        ")"
+}
+
+get_conn_type
+make_widget "$line" "$icon"
+nmcli monitor | while read -r; do 
+    get_conn_type
+    make_widget "$line" "$icon"
+done
+
+    

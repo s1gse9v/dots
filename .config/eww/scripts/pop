@@ -1,0 +1,27 @@
+#!/bin/bash
+
+pop(){
+    # lock exists, so close
+    if ("$eww" state | grep "${1}_lock: true"); then
+        "$eww" close "${1}_popup"
+        "$eww" update "${1}_lock=false"
+    else
+        "$eww" close "${all_popups[@]}"
+        "$eww" update "${1}_lock=true"
+        "$eww" open "${1}_popup"
+    fi
+}
+
+eww=$(which eww)
+all_popups=("music_popup")
+
+case "$1" in
+    music)
+        pop "$1"
+        exit
+        ;;
+    *)
+        echo failed to open "$1"
+        exit 1
+        ;;
+esac
