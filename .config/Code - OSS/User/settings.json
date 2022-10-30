@@ -1,6 +1,6 @@
 {
     "workbench.colorTheme": "Dracula",
-    "editor.fontFamily": "'FiraCode Nerd Font', 'monospace', monospace",
+    "editor.fontFamily": "'FiraCode Nerd Font Mono', 'monospace', monospace",
     "editor.fontLigatures": true,
     "editor.fontSize": 18,
     "editor.formatOnSave": true,
@@ -98,5 +98,6 @@
         "<C-f>": false
     },
     "C_Cpp.clang_format_path": "/usr/bin/clang-format",
-    "C_Cpp.clang_format_style": "LLVM"
+    "C_Cpp.clang_format_style": "LLVM",
+    "window.zoomLevel": -1
 }

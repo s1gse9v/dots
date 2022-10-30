@@ -8,25 +8,11 @@ super + Return
 
 # program launcher
 super + d
-	rofi -modi drun -show drun -line-padding 4 \
-                -columns 2 -padding 50 -hide-scrollbar -terminal xfce4-terminal \
-                -show-icons -drun-icon-theme "Arc-X-D" -font "Droid Sans Regular 10"
+    rofi -show drun
 
 # show open window
 super + ctrl + d
-	rofi -modi drun -show window -line-padding 4 \
-                -columns 2 -padding 50 -hide-scrollbar -terminal xfce4-terminal \
-                -show-icons -drun-icon-theme "Arc-X-D" -font "Droid Sans Regular 10"
-
-# show ssh sesssions
-super + shift + d
-	rofi -modi drun -show ssh -line-padding 4 \
-                -columns 2 -padding 50 -hide-scrollbar -terminal xfce4-terminal \
-                -show-icons -drun-icon-theme "Arc-X-D" -font "Droid Sans Regular 10"
-
-# power-menu 
-super + shift + e
-     ~/.config/rofi/powermenu.sh
+    rofi -show window
 
 # make sxhkd reload its configuration files:
 super + Escape
@@ -179,7 +165,7 @@ super + w
   firefox
 
 super + n 
-  thunar  
+  nautilus  
 
 super + F1
   ~/.config/bspwm/scripts/keybindings_rofi.sh
