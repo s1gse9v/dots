@@ -16,8 +16,8 @@ eww open bar
 xss-lock -- xsecurelock &
 
 # workspaces
-INTERNAL_MONITOR="DP-2"
-EXTERNAL_MONITOR="HDMI-1"
+INTERNAL_MONITOR="DisplayPort-1"
+EXTERNAL_MONITOR="HDMI-A-0"
 bspc monitor "$INTERNAL_MONITOR" -d I II III IV
 bspc monitor "$EXTERNAL_MONITOR" -d V VI VII VIII
 
