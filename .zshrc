@@ -10,7 +10,7 @@ source ~/.config/zsh/plugins/zsh-snap/znap.zsh
 bindkey '^Z' undo
 
 ### aliases
-alias config='/usr/bin/git --git-dir=$HOME/.config --work-tree=$HOME/'
+alias config='/usr/bin/git --git-dir=$HOME/.config/dots --work-tree=$HOME/'
 
 ### fzf-things ###
 source /usr/share/fzf/completion.zsh
@@ -20,7 +20,6 @@ source /usr/share/fzf/key-bindings.zsh
 znap source zsh-users/zsh-autosuggestions
 znap source ohmyzsh/ohmyzsh lib/git
 znap source zsh-users/zsh-syntax-highlighting
-znap source kazhala/dotbare
 
 ### COMPLETIONS ###
 znap function _rustup rustup 'eval "$( rustup completions zsh )"'
