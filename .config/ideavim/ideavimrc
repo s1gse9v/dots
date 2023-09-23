@@ -18,11 +18,18 @@ nnoremap ge              :action GotoNextError<CR>
 nnoremap gE              :action GotoPreviousError<CR>
 nnoremap gi              :action GotoImplementation<CR>
 
+" set handlers for movement "
+sethandler <c-h> a:vim
+sethandler <c-j> a:vim
+sethandler <c-k> a:vim
+sethandler <c-l> a:vim
+
 " Editor Actions "
 nnoremap <leader>=       :action ReformatCode<CR>
 nnoremap <leader>a       :action GotoAction<CR>
 nnoremap <leader>q       :action CloseContent<CR>
 nnoremap <leader>u       :action FindUsages<CR>
+nnoremap <leader>d       :action QuickJavaDoc<CR>
 nnoremap <TAB>           :action NextTab<CR>
 nnoremap <S-TAB>         :action PreviousTab<CR>
 

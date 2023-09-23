@@ -2,10 +2,8 @@
     "workbench.colorTheme": "Dracula",
     "editor.fontFamily": "'FiraCode Nerd Font Mono', 'monospace', monospace",
     "editor.fontLigatures": true,
-    "editor.fontSize": 18,
-    "editor.formatOnSave": true,
+    "editor.fontSize": 16,
     "editor.minimap.autohide": true,
-    "files.autoSave": "afterDelay",
     "security.workspace.trust.banner": "never",
     "vim.easymotion": true,
     "vim.hlsearch": true,
@@ -25,12 +23,12 @@
     "vim.normalModeKeyBindingsNonRecursive": [
         {
             "before": [
-                "<space>",
-                "="
+                "<leader>",
+                "f"
             ],
             "commands": [
                 "editor.action.formatDocument"
-            ],
+            ]
         },
         {
             "before": [
@@ -61,6 +59,24 @@
         },
         {
             "before": [
+                "g",
+                "s"
+            ],
+            "commands": [
+                "editor.action.triggerSuggest"
+            ]
+        },
+        {
+            "before": [
+                "g",
+                "h"
+            ],
+            "commands": [
+                "editor.action.showDefinitionPreviewHover"
+            ]
+        },
+        {
+            "before": [
                 "<leader>",
                 "q"
             ],
@@ -83,15 +99,6 @@
             "commands": [
                 "workbench.action.previousPanelView"
             ]
-        },
-        {
-            "before": [
-                ",",
-                "t"
-            ],
-            "commands": [
-                "workbench.action.terminal.toggleTerminal"
-            ]
         }
     ],
     "vim.handleKeys": {
@@ -99,6 +106,123 @@
     },
     "C_Cpp.clang_format_path": "/usr/bin/clang-format",
     "C_Cpp.clang_format_style": "LLVM",
-    "window.zoomLevel": -1,
-    "editor.wordWrap": "on"
+    "editor.wordWrap": "on",
+    "cSpell.language": "en,de-de",
+    "cSpell.enabled": true,
+    "latex-workshop.latex.tools": [
+        {
+            "name": "latexmk",
+            "command": "latexmk",
+            "args": [
+                "-synctex=1",
+                "-shell-escape",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-pdf",
+                "-bibtex",
+                "-pdflatex=lualatex",
+                "%DOC%"
+            ]
+        },
+        {
+            "name": "pdflatex",
+            "command": "pdflatex",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOC%"
+            ]
+        },
+        {
+            "name": "lualatex",
+            "command": "lualatex",
+            "args": [
+                "-synctex=1",
+                "-shell-escape",
+                "-bibtex",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-pdf",
+                "%DOC%"
+            ]
+        },
+        {
+            "name": "bibtex",
+            "command": "bibtex",
+            "args": [
+                "%DOCFILE%"
+            ]
+        }
+    ],
+    "latex-workshop.latexindent.path": "/usr/bin/latexindent",
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "latexmk",
+            "tools": [
+                "latexmk"
+            ]
+        },
+        {
+            "name": "latexmk (latexmkrc)",
+            "tools": [
+                "latexmk_rconly"
+            ]
+        },
+        {
+            "name": "latexmk (lualatex)",
+            "tools": [
+                "lualatex"
+            ]
+        },
+        {
+            "name": "latexmk (xelatex)",
+            "tools": [
+                "xelatexmk"
+            ]
+        },
+        {
+            "name": "pdflatex -> bibtex -> pdflatex * 2",
+            "tools": [
+                "pdflatex",
+                "bibtex",
+                "pdflatex",
+                "pdflatex"
+            ]
+        },
+        {
+            "name": "Compile Rnw files",
+            "tools": [
+                "rnw2tex",
+                "latexmk"
+            ]
+        },
+        {
+            "name": "Compile Jnw files",
+            "tools": [
+                "jnw2tex",
+                "latexmk"
+            ]
+        },
+        {
+            "name": "Compile Pnw files",
+            "tools": [
+                "pnw2tex",
+                "latexmk"
+            ]
+        },
+        {
+            "name": "tectonic",
+            "tools": [
+                "tectonic"
+            ]
+        }
+    ],
+    "editor.formatOnSave": true,
+    "editor.inlayHints.fontSize": 14,
+    "rust-analyzer.inlayHints.expressionAdjustmentHints.mode": "prefer_postfix",
+    "rust_analyzer.inlayHints.foreground": "#6272a4",
+    "rust_analyzer.inlayHints.background": "#44475a",
+    "editor.inlayHints.enabled": "offUnlessPressed",
+    "files.autoSave": "afterDelay"
 }
