@@ -2,7 +2,7 @@ source ~/.vim/conf/keymaps.vimrc
 
 set incsearch
 set scrolloff=8
-set relativenumber
+set number relativenumber
 
 set surround
 set easymotion
