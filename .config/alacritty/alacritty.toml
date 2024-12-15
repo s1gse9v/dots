@@ -81,7 +81,7 @@ multiplier = 3
 [selection]
 save_to_clipboard = true
 
-[shell]
+[terminal.shell]
 args = ["-l", "-c", "tmux -f ~/.config/tmux/tmux.conf new-session -As0"]
 program = "/bin/zsh"
 
@@ -92,3 +92,5 @@ instance = "Alacritty"
 [window.padding]
 x = 5
 y = 5
+
+[terminal]

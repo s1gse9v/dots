@@ -2,7 +2,7 @@
     "workbench.colorTheme": "Dracula",
     "editor.fontFamily": "'FiraCode Nerd Font Mono', 'monospace', monospace",
     "editor.fontLigatures": true,
-    "editor.fontSize": 16,
+    "editor.fontSize": 13,
     "editor.minimap.autohide": true,
     "security.workspace.trust.banner": "never",
     "vim.easymotion": true,
