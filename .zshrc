@@ -1,29 +1,86 @@
-### USE ZNAP ###
-if ! [[ -f ~/.config/zsh/plugins/zsh-snap/znap.zsh ]]; then
-    git clone --depth 1 -- \
-        https://github.com/marlonrichert/zsh-snap.git ~/.config/zsh/plugins/zsh-snap
-    source ~/.config/plugins/zsh-snap/install.zsh
-fi
-source ~/.config/zsh/plugins/zsh-snap/znap.zsh
-
-### KEYBINDINGS ###
-bindkey '^Z' undo
-
-### aliases
+# aliases
 alias config='/usr/bin/git --git-dir=$HOME/.config/dots --work-tree=$HOME/'
+alias pacffind='pacman -Slq | fzf --multi --preview "pacman -Si {1}" | xargs -ro sudo pacman -S'
+alias pacfremove='pacman -Qq | fzf --multi --preview "pacman -Qi {1}" | xargs -ro sudo pacman -Runs'
+alias gits='git status'
+alias gitss='git status -s'
+alias gitc='git commit'
+alias gita='git add'
+alias gitl='git log'
+alias gitlo='git log --oneline'
+alias gitd='git diff'
+
+function open() {
+    xdg-open "$1" &> /dev/null & disown 
+}
+
+function fkill() {
+    local pid 
+    if [ "$UID" != "0" ]; then
+        pid=$(ps -f -u $UID | sed 1d | fzf -m | awk '{print $2}')
+    else
+        pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+    fi  
+
+    if [ "x$pid" != "x" ]
+    then
+        echo $pid | xargs kill -${1:-9}
+    fi  
+}
 
 ### fzf-things ###
 source /usr/share/fzf/completion.zsh
 source /usr/share/fzf/key-bindings.zsh
 
 ### PLUGINS ###
-znap source zsh-users/zsh-autosuggestions
-znap source ohmyzsh/ohmyzsh lib/git
-znap source zsh-users/zsh-syntax-highlighting
-
-### COMPLETIONS ###
-znap function _rustup rustup 'eval "$( rustup completions zsh )"'
-compctl -K _rustup rustup
+if [ -f /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+    source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
+if [ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+    source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
+        ZSH_HIGHLIGHT_STYLES[default]=none
+        ZSH_HIGHLIGHT_STYLES[unknown-token]=underline
+        ZSH_HIGHLIGHT_STYLES[reserved-word]=fg=cyan,bold
+        ZSH_HIGHLIGHT_STYLES[suffix-alias]=fg=green,underline
+        ZSH_HIGHLIGHT_STYLES[global-alias]=fg=green,bold
+        ZSH_HIGHLIGHT_STYLES[precommand]=fg=green,underline
+        ZSH_HIGHLIGHT_STYLES[commandseparator]=fg=blue,bold
+        ZSH_HIGHLIGHT_STYLES[autodirectory]=fg=green,underline
+        ZSH_HIGHLIGHT_STYLES[path]=bold
+        ZSH_HIGHLIGHT_STYLES[path_pathseparator]=
+        ZSH_HIGHLIGHT_STYLES[path_prefix_pathseparator]=
+        ZSH_HIGHLIGHT_STYLES[globbing]=fg=blue,bold
+        ZSH_HIGHLIGHT_STYLES[history-expansion]=fg=blue,bold
+        ZSH_HIGHLIGHT_STYLES[command-substitution]=none
+        ZSH_HIGHLIGHT_STYLES[command-substitution-delimiter]=fg=magenta,bold
+        ZSH_HIGHLIGHT_STYLES[process-substitution]=none
+        ZSH_HIGHLIGHT_STYLES[process-substitution-delimiter]=fg=magenta,bold
+        ZSH_HIGHLIGHT_STYLES[single-hyphen-option]=fg=green
+        ZSH_HIGHLIGHT_STYLES[double-hyphen-option]=fg=green
+        ZSH_HIGHLIGHT_STYLES[back-quoted-argument]=none
+        ZSH_HIGHLIGHT_STYLES[back-quoted-argument-delimiter]=fg=blue,bold
+        ZSH_HIGHLIGHT_STYLES[single-quoted-argument]=fg=yellow
+        ZSH_HIGHLIGHT_STYLES[double-quoted-argument]=fg=yellow
+        ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument]=fg=yellow
+        ZSH_HIGHLIGHT_STYLES[rc-quote]=fg=magenta
+        ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=magenta,bold
+        ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=magenta,bold
+        ZSH_HIGHLIGHT_STYLES[back-dollar-quoted-argument]=fg=magenta,bold
+        ZSH_HIGHLIGHT_STYLES[assign]=none
+        ZSH_HIGHLIGHT_STYLES[redirection]=fg=blue,bold
+        ZSH_HIGHLIGHT_STYLES[comment]=fg=black,bold
+        ZSH_HIGHLIGHT_STYLES[named-fd]=none
+        ZSH_HIGHLIGHT_STYLES[numeric-fd]=none
+        ZSH_HIGHLIGHT_STYLES[arg0]=fg=cyan
+        ZSH_HIGHLIGHT_STYLES[bracket-error]=fg=red,bold
+        ZSH_HIGHLIGHT_STYLES[bracket-level-1]=fg=blue,bold
+        ZSH_HIGHLIGHT_STYLES[bracket-level-2]=fg=green,bold
+        ZSH_HIGHLIGHT_STYLES[bracket-level-3]=fg=magenta,bold
+        ZSH_HIGHLIGHT_STYLES[bracket-level-4]=fg=yellow,bold
+        ZSH_HIGHLIGHT_STYLES[bracket-level-5]=fg=cyan,bold
+        ZSH_HIGHLIGHT_STYLES[cursor-matchingbracket]=standout
+fi
 
 ### GET OS ICON ###
 RELEASE=$(sed -En 's/.*ID=([[:alnum:]]+)/\1/p' /etc/*-release | tr '[:upper:]' '[:lower:]' | uniq | head -n1)
@@ -57,15 +114,13 @@ esac
 
 ### SET PROMPT ###
 setopt PROMPT_SUBST     #enable calling functions from within PROMPT          
-PS1=$'%F{%(#.blue.green)}┌──(%B%F{%(#.red.blue)}%n%(#.💀.%B'$PROMPT_SYMBOL$')%m%b%F{%(#.blue.green)})-[%B%F{reset}%(6~.%-1~/…/%4~.%5~)%b\$(git_prompt_info)%F{%(#.blue.green)}]\n└─%B%(#.%F{red}#.%F{blue}$)%b%F{reset} '
+PS1=$'%F{%(#.blue.green)}┌──(%B%F{%(#.red.blue)}%n%(#.💀.%B'$PROMPT_SYMBOL$')%m%b%F{%(#.blue.green)})-[%B%F{reset}%(6~.%-1~/…/%4~.%5~)%b%F{%(#.blue.green)}]\n└─%B%(#.%F{red}#.%F{blue}$)%b%F{reset} '
 RPROMPT=$'%(?.. %? %F{red}%B%b%F{reset})%(1j. %j %F{yellow}%B⚙%b%F{reset}.)'
-znap prompt
-
 
 ### HISTORY WHATEVER ###
 HISTFILE=~/.zsh_history
-HISTSIZE=1000
-SAVEHIST=2000
+HISTSIZE=10000
+SAVEHIST=20000
 setopt hist_expire_dups_first # delete duplicates first when HISTFILE size exceeds HISTSIZE
 setopt hist_ignore_dups       # ignore duplicated commands history list
 setopt hist_ignore_space      # ignore commands that start with space
@@ -73,13 +128,9 @@ setopt hist_verify            # show command with history expansion to user befo
 setopt share_history          # share command history data
 alias history="history 0"     # force zsh to show the complete history
 
-### GIT PROMPT MODIFIERS ###
-ZSH_THEME_GIT_PROMPT_PREFIX=" %F{blue}(%F{reset}"
-ZSH_THEME_GIT_PROMPT_CLEAN=""
-ZSH_THEME_GIT_PROMPT_DIRTY="%F{red}*%{%F{reset}%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%F{blue})%{%F{reset}%}"
-
 ### COMPLETION STUFF ####
+autoload -Uz compinit
+compinit -d ~/.cache/zcompdump
 zstyle ':completion:*:*:*:*:*' menu select
 zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _expand _complete
@@ -96,51 +147,6 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 ### DISABLE RETARDED DELETION OF WHOLE PATH ###
 autoload -U select-word-style
 select-word-style bash
-
-### COLORS N SHIT ###
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
-ZSH_HIGHLIGHT_STYLES[default]=none
-ZSH_HIGHLIGHT_STYLES[unknown-token]=fg=white,underline
-ZSH_HIGHLIGHT_STYLES[reserved-word]=fg=cyan,bold
-ZSH_HIGHLIGHT_STYLES[suffix-alias]=fg=green,underline
-ZSH_HIGHLIGHT_STYLES[global-alias]=fg=green,bold
-ZSH_HIGHLIGHT_STYLES[precommand]=fg=green,underline
-ZSH_HIGHLIGHT_STYLES[commandseparator]=fg=blue,bold
-ZSH_HIGHLIGHT_STYLES[autodirectory]=fg=green,underline
-ZSH_HIGHLIGHT_STYLES[path]=bold
-ZSH_HIGHLIGHT_STYLES[path_pathseparator]=
-ZSH_HIGHLIGHT_STYLES[path_prefix_pathseparator]=
-ZSH_HIGHLIGHT_STYLES[globbing]=fg=blue,bold
-ZSH_HIGHLIGHT_STYLES[history-expansion]=fg=blue,bold
-ZSH_HIGHLIGHT_STYLES[command-substitution]=none
-ZSH_HIGHLIGHT_STYLES[command-substitution-delimiter]=fg=magenta,bold
-ZSH_HIGHLIGHT_STYLES[process-substitution]=none
-ZSH_HIGHLIGHT_STYLES[process-substitution-delimiter]=fg=magenta,bold
-ZSH_HIGHLIGHT_STYLES[single-hyphen-option]=fg=green
-ZSH_HIGHLIGHT_STYLES[double-hyphen-option]=fg=green
-ZSH_HIGHLIGHT_STYLES[back-quoted-argument]=none
-ZSH_HIGHLIGHT_STYLES[back-quoted-argument-delimiter]=fg=blue,bold
-ZSH_HIGHLIGHT_STYLES[single-quoted-argument]=fg=yellow
-ZSH_HIGHLIGHT_STYLES[double-quoted-argument]=fg=yellow
-ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument]=fg=yellow
-ZSH_HIGHLIGHT_STYLES[rc-quote]=fg=magenta
-ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=magenta,bold
-ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=magenta,bold
-ZSH_HIGHLIGHT_STYLES[back-dollar-quoted-argument]=fg=magenta,bold
-ZSH_HIGHLIGHT_STYLES[assign]=none
-ZSH_HIGHLIGHT_STYLES[redirection]=fg=blue,bold
-ZSH_HIGHLIGHT_STYLES[comment]=fg=black,bold
-ZSH_HIGHLIGHT_STYLES[named-fd]=none
-ZSH_HIGHLIGHT_STYLES[numeric-fd]=none
-ZSH_HIGHLIGHT_STYLES[arg0]=fg=cyan
-ZSH_HIGHLIGHT_STYLES[bracket-error]=fg=red,bold
-ZSH_HIGHLIGHT_STYLES[bracket-level-1]=fg=blue,bold
-ZSH_HIGHLIGHT_STYLES[bracket-level-2]=fg=green,bold
-ZSH_HIGHLIGHT_STYLES[bracket-level-3]=fg=magenta,bold
-ZSH_HIGHLIGHT_STYLES[bracket-level-4]=fg=yellow,bold
-ZSH_HIGHLIGHT_STYLES[bracket-level-5]=fg=cyan,bold
-ZSH_HIGHLIGHT_STYLES[cursor-matchingbracket]=standout
-
 
 ### ENABLE COLOR SUPPORT OF LS, LESS AND MAN, AND ALSO ADD HANDY ALIASES ###
 if [ -x /usr/bin/dircolors ]; then
@@ -169,28 +175,3 @@ if [ -x /usr/bin/dircolors ]; then
     zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
     zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 fi
-
-### ALIASES ###
-alias ll='ls -l'
-alias la='ls -a'
-alias l='ls -CF'
-
-### fzf-cap
-# interactive package selection/installation
-alias pacffind='pacman -Slq | fzf --multi --preview "pacman -Si {1}" | xargs -ro sudo pacman -S'
-# interactive package removal
-alias pacfremove='pacman -Qq | fzf --multi --preview "pacman -Qi {1}" | xargs -ro sudo pacman -Runs'
-# kill processes - list only the ones you can kill. Modified the earlier script.
-fkill() {
-    local pid 
-    if [ "$UID" != "0" ]; then
-        pid=$(ps -f -u $UID | sed 1d | fzf -m | awk '{print $2}')
-    else
-        pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
-    fi  
-
-    if [ "x$pid" != "x" ]
-    then
-        echo $pid | xargs kill -${1:-9}
-    fi  
-}

@@ -1,8 +1,4 @@
 call plug#begin('~/.vim/plugged')
-    Plug 'vim-airline/vim-airline'
-    Plug 'preservim/nerdtree'
-    Plug 'ryanoasis/vim-devicons'
-    Plug 'Xuyuanp/nerdtree-git-plugin'
     Plug 'dracula/vim',{'as':'dracula'}
     Plug 'dhruvasagar/vim-table-mode'
     Plug 'tpope/vim-surround'
